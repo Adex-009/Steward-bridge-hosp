@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: stewardbridge
+    runtime: node
+    plan: starter
+    buildCommand: npm install --no-audit --no-fund && npm run build
+    startCommand: npm run start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: AUTH_SECRET
+        generateValue: true
+      - key: NEXTAUTH_URL
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: STORAGE_DIR
+        value: /var/data/documents
+    disk:
+      name: stewardbridge-data
+      mountPath: /var/data
+      sizeGB: 1

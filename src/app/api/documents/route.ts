@@ -1,0 +1,2 @@
+import { NextResponse } from 'next/server'; import { auth } from '@/lib/auth'; import { db } from '@/db'; import { documents } from '@/db/schema'; import { eq, desc } from 'drizzle-orm';
+export async function GET(){const s=await auth();if(!s?.user?.id)return NextResponse.json({error:'Unauthorized'},{status:401});return NextResponse.json({items:await db.select().from(documents).where(eq(documents.userId,s.user.id)).orderBy(desc(documents.createdAt))});}

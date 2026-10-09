@@ -1,0 +1,3 @@
+import { NextResponse } from 'next/server';
+import { auth } from '@/lib/auth'; import { db } from '@/db'; import { applications, candidateProfiles, jobs } from '@/db/schema'; import { eq } from 'drizzle-orm';
+export async function GET() { const s=await auth(); if(!s?.user?.id)return NextResponse.json({error:'Unauthorized'},{status:401}); const [c]=await db.select().from(candidateProfiles).where(eq(candidateProfiles.userId,s.user.id)).limit(1); if(!c)return NextResponse.json({items:[]}); const rows=await db.select({application:applications,job:jobs}).from(applications).leftJoin(jobs,eq(applications.jobId,jobs.id)).where(eq(applications.candidateId,c.id)); return NextResponse.json({items:rows.map(x=>({...x.application,title:x.job?.title,status:x.application.status}))}); }
