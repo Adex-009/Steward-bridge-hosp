@@ -1,0 +1,14 @@
+node_modules/
+.next/
+out/
+coverage/
+*.log
+.env
+.env.local
+.env.*.local
+.data/
+.DS_Store
+npm-debug.log*
+
+# Local TypeScript build metadata
+tsconfig.tsbuildinfo

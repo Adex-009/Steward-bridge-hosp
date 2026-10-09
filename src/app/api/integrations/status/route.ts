@@ -1,0 +1,2 @@
+import { NextResponse } from 'next/server'; import { requireAdmin } from '@/lib/admin-api';
+export async function GET(){try{await requireAdmin();return NextResponse.json({webhookConfigured:Boolean(process.env.STEWARD_BRIDGE_AGENT_WEBHOOK_URL),googleAuthentication:Boolean(process.env.GOOGLE_CLIENT_ID),googleCalendar:Boolean(process.env.GOOGLE_CLIENT_ID),contact:{email:'elushadetimothy@gmail.com',whatsapp:'+2347066510205'}})}catch(e){if(e instanceof Response)return e;return NextResponse.json({error:'Server error'},{status:500})}}
